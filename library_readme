@@ -1,0 +1,2 @@
+1) kütüphaneler state objesi tutmaz
+2) nesnenin kendisini tutmaz, nesnenin pointer ı geçirilir buda sadece storage keywordü le olur işlem yaptırılır ve dönülür
