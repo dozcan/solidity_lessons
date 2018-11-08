@@ -1,3 +1,27 @@
+//Write your own contracts here. Currently compiles using solc v0.4.15+commit.bbb8e64f.
+pragma solidity ^0.4.18;
+
+import './Set.sol';
+import './D.sol';
+
+contract  C {
+    
+    Set.Data concreteData;
+    function insert(uint value) public returns (bool){
+        return Set.insert(concreteData,value);
+    }
+     function remove(uint value) public returns (bool){
+        return Set.insert(concreteData,value);
+    }
+    function contains(uint value) public view returns (bool){
+        return Set.contains(concreteData,value);
+    }
+    function get()public view returns (address,address){
+        D newDContract = new D();
+        return (newDContract.get(),address(this));
+    }
+}
+
 library Set{
     
     struct Data {
@@ -22,15 +46,8 @@ library Set{
     }
 }
 
-contract  C {
-    
-    Set.Data concreteData;
-    function insert(uint value) public returns (bool){
-        return Set.insert(concreteData,value);
+contract D {
+    function get() public view returns(address){
+        return this;
     }
-     function remove(uint value) public returns (bool){
-        return Set.insert(concreteData,value);
-    }
-    function contains(uint value) public view returns (bool){
-        return Set.contains(concreteData,value);
-    }
+}
