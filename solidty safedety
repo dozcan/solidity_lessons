@@ -1,0 +1,22 @@
+Exception for out-of-bounds access to arrays 
+→ reverts whole transaction if not caught
+
+Downside: Current EVM consumes all gas upon exception.
+contract C {
+  uint[] data;
+  function append(uint value) { data.push(value); }
+  function replace(uint index, uint value) {   burada tum gas gidiyor 
+    data[index] = value;
+  }
+}
+Exceptions can also be used manually
+contract C {
+  address owner;
+  function changeOwner(address _new) {
+    if (msg.sender != owner) throw;
+    owner = _new;
+  }
+}
+
+
+
