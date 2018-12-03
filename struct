@@ -1,0 +1,34 @@
+//Write your own contracts here. Currently compiles using solc v0.4.15+commit.bbb8e64f.
+pragma solidity ^0.4.18;
+
+contract TestGas {
+  
+    struct Funder {
+        address addr;
+        uint amount;
+    }
+
+    struct Campaign {
+        address beneficiary;
+        uint fundingGoal;
+        uint numFunders;
+        uint amount;
+        mapping (uint => Funder) funders;
+    }
+
+    uint numCampaigns;
+    mapping (uint => Campaign) campaigns;
+
+    function newCampaign(address beneficiary, uint goal) public returns (uint campaignID) {
+        campaignID = numCampaigns++; 
+        campaigns[campaignID] = Campaign(beneficiary, goal, 0, 0);
+    }
+
+    function contribute(uint campaignID) public payable {
+        Campaign storage c = campaigns[campaignID];
+        c.funders[c.numFunders++] = Funder(msg.sender,msg.value);
+        c.amount += msg.value;
+    }
+
+
+}
