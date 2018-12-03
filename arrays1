@@ -1,0 +1,19 @@
+contract TestGas {
+    
+    address[] arr;  => // storage arrayler uzunluk verilmeden tanımlanır
+
+    function setStorage() public {
+          arr.push(5);
+          arr.push(4);
+    }
+    
+    function setMemory() public pure{
+          address[] memory arr = new address[](7); => => // memory arrayler boyut verilerek tanımlanmalıdır ve push özelliği yoktur
+          arr[0] = 5;
+          arr[1] = 6;
+    }
+
+    function get() public view returns(address[]){
+        return arr;
+    }
+}
