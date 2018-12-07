@@ -38,48 +38,29 @@ contract calc {
 
 }
 **************************************************************************
+pragma solidity ^0.5.0;
 
-
-import "./SafeMath.sol";
-
-contract ERC20 {
-
-    using SafeMath for uint256;
-    mapping(address => uint256) balances;
-
-    function transfer(address _to, uint256 _value) public returns (bool success) {
-        balances[msg.sender] = balances[msg.sender].sub(_value);
-        balances[_to] = balances[_to].add(_value);
-        return true;
-    }
-}
 
 library SafeMath {
 
-    function mul(uint256 a, uint256 b) external pure returns (uint256) {
-        uint256 c = a * b;
-        assert(a == 0 || c / a == b);
+  function add(uint a,uint b) external pure returns(uint ){
+      uint c = a + b;
+      return c;
+      
+  }
+}
+
+
+contract calc {
+    using SafeMath for uint;
+    uint c;
+    function calcAdd(uint a, uint b)public {
+         c = a.add(b);
+    }
+    function get()public view returns(uint){
         return c;
     }
 
-
-    function div(uint256 a, uint256 b) external pure returns (uint256) {
-        uint256 c = a / b;
-        return c;
-    }
-
-
-    function sub(uint256 a, uint256 b) external pure returns (uint256) {
-        assert(b <= a);
-        return a - b;
-    }
-
-
-    function add(uint256 a, uint256 b) external pure returns (uint256) {
-        uint256 c = a + b;
-        assert(c >= a);
-        return c;
-    }
 }
 
 
