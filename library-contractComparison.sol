@@ -38,6 +38,9 @@ contract calc {
 
 }
 **************************************************************************
+library yazarken external metod yazmak lazım izra daha az gas tüketiyor
+**************************************************************************
+
 pragma solidity ^0.5.0;
 
 
