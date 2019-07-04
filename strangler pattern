@@ -1,0 +1,41 @@
+Refactor the Monolith or Rebuild It From Scratch?
+Rewriting a large monolithic application from scratch is a big effort and has a good amount of risk associated with it. 
+One of the biggest challenges for us was having a good understanding of the legacy system. We did not want to carry forward the 
+technical debt associated with the legacy system into our new modern system.
+
+Also, if you go ahead with rewriting the monolith from scratch, you cannot start using the new system until it is complete. 
+You are in a corridor of uncertainty until the new system is developed and functioning as expected. Depending upon the size and 
+complexity of the application, this might take over a year in a lot of scenarios. During this period, since you are busy developing the 
+new system, there are minimal enhancements or new features delivered on the current platform, so the business needs to wait to have any 
+new feature developed and pushed out of the door.
+
+The Strangler Pattern reduces the above risk. Instead of rewriting the entire application, you replace the functionality step by step. 
+The business value of new functionality is provided much quicker. If you follow the Single Responsibility Principle and write 
+loosely-coupled code, it makes future refactoring work very simple.
+
+The Strangler Pattern is a popular design pattern to incrementally transform your monolithic application into microservices by 
+replacing a particular functionality with a new service. Once the new functionality is ready, the old component is strangled, 
+the new service is put into use, and the old component is decommissioned altogether.
+
+Any new development is done as part of the new service and not part of the monolith. This allows you to achieve high qualitycode for 
+greenfield development. You can follow Test-Driven Development for your business logic and integrate SonarQube with your deployment 
+pipeline to prevent any technical debt from accruing.
+
+In the below diagram, the Order Service is eventually strangled from the monolith into an independently deployable service with 
+its own CI/CD pipeline. Team A is now not dependent upon any issues with other teams.
+
+How Do You Select Which Components to Strangle/Refactor First?
+
+1) If you are following the Strangler Pattern for the first time and are new to this design pattern, playing it safe and selecting a 
+simple component is not a bad option. This will ensure that you gather practical knowledge and acclimatize yourself to the challenges 
+and best practices before strangling a complex component.
+
+2) If there is a component which has good test coverage and less technical debt associated with it, starting with this component can 
+give teams a lot of confidence during the migration process.
+
+3) If there are components which are better suited for the cloud and have scalability requirements, then start with one of those 
+components.
+
+4)If there is a component which has frequent business requirements and hence needs to be deployed a lot more regularly, you can 
+start with that component. This will ensure that you don't have to redeploy the entire monolithic application regularly. 
+Breaking it into a separate process will allow you to independently scale and deploy the application.
