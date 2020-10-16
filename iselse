@@ -1,9 +1,0 @@
- function addressOperatorTest(address owner, address sender) public pure returns (bool matches, bool doesntMatch) {
-
-        // Make sure variable "matches" is true when "owner" and "sender" are the same
-         matches = (sender == owner);
-
-        // Make sure variable "doesntMatch" is true when "owner" and "sender" are NOT the same
-         doesntMatch = (sender != owner);
-
-    }
