@@ -11,7 +11,44 @@ bunun yerine tek tek atama yapabiliriz
         x[2] = 4;
         
 //////////////////////////////
-        
+
+sabit boyutlu coklu dizi
+pragma solidity >=0.1.16 <0.8.0;
+pragma experimental ABIEncoderV2;
+contract sabitboyutlu{
+    uint[][2] crypto_names;
+    
+    function set()public{
+        crypto_names[0] = [1,2,3]  ; // generic characters
+
+    }
+    
+    function get() public returns (uint[][2] memory ){
+        return crypto_names;
+    }
+}
+
+///////////////////////////////
+dinamik boyutlu coklu dizi
+
+pragma solidity >=0.1.16 <0.8.0;
+pragma experimental ABIEncoderV2;
+contract dinamikboyutlu{
+     string[2][] public crypto_names;
+ 
+    constructor() public {
+        crypto_names.push(["Alice", "Bob"]);   // generic characters
+        crypto_names.push(["Carol", "Dave"]);  // 3rd and 4th party
+        crypto_names.push(["Eve", "Frank"]);   // Bad guys
+        crypto_names.push(["Grace", "Heidi"]); // others
+    }
+    
+    function get() public returns (string[2][] memory ){
+        return crypto_names;
+    }
+}
+
+//////////////////////////////////////
 pragma solidity >=0.2.0 <0.8.0;
 
 contract compare {
