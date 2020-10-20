@@ -1,0 +1,15 @@
+bytes to bytes32 donusumu
+
+function bytestobytes32(bytes memory b ) public pure returns (bytes32 result)  {
+ 
+         assembly
+         {
+            let length := mload(b) // dizi uzunluğu işaretçi ilk adresindedir
+             for { let i := 0 } lt(i, length) { i := add(i, 1) }
+             {
+               let res   :=  mload(add(add(b,32),i))  // dizi ilk elemanı 32 byte adrestedir sonraki 33 byte
+               mstore(add(0x20,i),res) //veriyi belleğe alıyoruz
+            }
+         result:= mload(0x20)   // sonucu 32 byte olarak döndürüyoruz 
+         }
+}
