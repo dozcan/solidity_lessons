@@ -1,0 +1,18 @@
+selection sort
+let a = [3,5,2,10,1]
+
+
+for(let i=1;i<a.length;i++){
+   let key = a[i];
+   let j = 0;
+   while(j<=i){
+      if(a[i-j]<a[i-j-1]){
+       let _temp = a[i-j]
+       a[i-j] = a[i-j-1]
+       a[i-j-1] = _temp 
+      }
+     j++;
+   } 
+}
+
+console.log(a);
