@@ -5,6 +5,18 @@ push sadece belirsiz boyutlu storage arraylerde çalışır
 4) memory dizilerinde ilk atama yoktur = > uint8 []memory s = [1,2,3];
 bunun yerine tek tek atama yapabiliriz
 
+
+global array initilaize edilir
+ama locak array initlazie edilmez
+ function arr() public  returns (uint256) {
+      
+    uint256 [] memory sayi2 =  [1,2,3,4,6]; not ok
+    
+    sayi = [1,2,3,4,6]; ok
+      
+  }
+
+
  uint[] memory x = new uint[](3);
         x[0] = 1;
         x[1] = 3;
