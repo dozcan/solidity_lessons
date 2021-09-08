@@ -30,23 +30,68 @@ uyarılar
     }
    
 2) For example, a structure of 2 uint128 can be stored in one slot in a mapping instead of storing them separately.
-3) storage slotları 0 larsak (dipose, garbage collector) bize 15000 gas iade ediliyor.
-4) hata yakalama da assert kullanmayın zira gas refund yapmaz reqire yapın gas size iade edilir.
-5) Public yerine External kullanız
+
+3) truffle tarafında backende solidity optimizer acık olmalı
+  Turn On Solidity Optimizer
+   When you compile Solidity smart contracts, you can specify an optimization flag to tell the Solidity compiler to produce highly optimized bytecode. 
+   This bytecode will consume less gas than if you don’t use the optimization flag.
+   You can enable optimization with this setting in your truffle-config.js file:
+   compilers :{
+     version:  "0.8.4",
+     opmizer:{
+       enabled: true,
+       runs:200
+     },
+    
+   }
+4) bir hash olusturma fonksiyonlarını dikkatli kullanmak gereklidir. zira bu işlem yüksek gas tüketimi içerir
+eğer bildiğimi bir değerin hashlenmesi soz konusu ise bunu backend üzerinde yapmalıyız.
+
+  contract optimize {
+    bytes32 hash = 'BHssdfsd...' 
+  }
+  
+  contract optimizedegil {
+    bytes32 hash = keccak256(abi.encodedPacked('ben hashleniyorum'))
+  
+  }
+  
+5) Use eth-gas-reporter : This reporter displays gas consumption changes to each function in your smart contract. 
+
+6) Avoid assigning values that You’ll never use
+   Every variable assignment in Solidity costs gas. When initializing variables, we often waste gas by assigning default values that will never be used.
+    uint256 value; is cheaper than uint256 value = 0;.
+    
+7) Use Mappings instead of Arrays
+    Solidity is the first language in which mappings are less expensive than arrays.
+    Most of the time it will be better to use a mapping instead of an array because of its cheaper operations.    
+
+8) storage slotları 0 larsak (dipose, garbage collector) bize 15000 gas iade ediliyor.
+   In Ethereum, you get a gas refund for freeing up storage space.
+    Deleting a variable refund 15,000 gas up to a maximum of half the gas cost of the transaction. 
+    Deleting with the delete keyword is equivalent to assigning the initial value for the data type, such as 0 for integers.
+    
+9) hata yakalama da assert kullanmayın zira gas refund yapmaz reqire yapın gas size iade edilir.
+
+10) Public yerine External kullanız
     If you are sure you won’t call a method of your contract from its other methods, but only externally, 
     it’s good to make such a method external, not public. This is because a public method that will also allow calls from the same contract, 
     has to copy parameters to memory before performing a jump to the method instructions. While an external method doesn’t expect such calls and 
     is optimized by direct reading of parameters from calldata. An external method f() can still be called from the same contract through a message call as this.f(), 
     but this is unreasonable as will use extra gas.
- 6) Internal function calls kullanın
+    
+ 11) Internal function calls kullanın
     Calling functions internally is optimizing the execution because this doesn’t need memory clearing and is just a jump to the method code in the same flow.
- 7) eventleri gerektiği zaman kullanın
+    
+ 12) eventleri gerektiği zaman kullanın
     According to Appendix G of the Yellow Paper, emitting events is gas-consuming as they generate LOG instructions that take gas depending on data size and amount of topics. 
     So emit events only where really needed to simplify interaction with offchain parts of the software, not for debugging or logging purpose.
- 8) eger elinizde byte dizisi var ise ve her bir elamnın uzunluğu 32 byte tan kucuk ise(1 slot)
+    
+ 13) eger elinizde byte dizisi var ise ve her bir elamnın uzunluğu 32 byte tan kucuk ise(1 slot)
     sabit boyutlu dizi kullanın
     bytes32[] gibi bunun yerine bytes kullanmayın
- 9) Offchain transactions
+    
+ 14) Offchain transactions
      An alternative approach to save your users from paying transactions fee is to collect their offchain signed transactions and publish those by the backend. 
      This can be very useful in different multisig defi scenarios and custodian solutions. In this case, the missing signatures can be collected from all involved parties 
      offchain, and only the final transaction is published Of course, we have to verify signatures onchain using ecrecover. Its costs are mentioned in the yellow paper as 3000 gas.
