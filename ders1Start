@@ -1,0 +1,18 @@
+1) https://programtheblockchain.com/posts/2017/12/15/writing-a-contract-that-handles-ether/
+2) https://programtheblockchain.com/posts/2017/12/26/checking-the-sender-in-a-smart-contract/
+3) https://programtheblockchain.com/posts/2018/01/02/making-smart-contracts-with-public-variables/
+
+4)Computer scientists say that a procedure is re-entrant if its execution can be interrupted in the middle, initiated over 
+  (re-entered), and both runs can complete without any errors in execution. In the context of Ethereum smart contracts, re-entrancy can lead to serious vulnerabilities. 
+  
+  retrency ornegi
+
+5) https://quantstamp.com/blog/what-is-a-re-entrancy-attack
+
+6) https://github.com/dozcan/ethereumDefi/blob/main/Ethereum_Defi/lockClaim.sol
+
+transfer ve transferfrom farkı
+
+7) transfer işlemi private key sahibinin başka bir adrese kendi tokenini transfer yapması anlamına gelir
+
+örneğin: cüzdandan cüzdana veya 
