@@ -1,0 +1,19 @@
+
+pragma solidity ^0.4.0;
+contract ArraySort {
+    function sort_array(bytes memory arr) public pure returns (bytes) {
+        uint256 l = arr.length;
+        for(uint i = 0; i < l; i++) {
+            for(uint j = i+1; j < l ;j++) {
+                if(arr[i] > arr[j]) {
+                    bytes1 temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+        return arr;
+    }
+}
+
+çağırma remizx => 0x213801
