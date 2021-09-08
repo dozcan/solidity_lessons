@@ -9,6 +9,26 @@ linear for small amounts, and quadratic for larger. It’s significantly less fo
 uyarılar 
 
 1) struct kullanırken 32 byte içerisine sıgacak sekiled yapmalıyız, taşma olursa gas miktarı yükselir.
+   When you are storing data permanently on the blockchain, in order to do so the assembly command SSTORE is executed in the background. 
+   This is the most expensive command with a cost of 20,000 gas so we should try to use it as little as possible. 
+   Inside structs, the amount of SSTORE operations performed can be reduced by simply rearranging the variables as in the following example:
+   
+   mesela aşağıdaki örnekte sload 2 defa çalışacak ve gas optimizasyonu yapacağız.
+   
+       struct Data {
+        uint64 a;
+        uint64 b;
+        uint128 c;
+        uint256 d;
+    }
+    Data public data;
+    constructor(uint64 _a, uint64 _b, uint128 _c, uint256 _d) public {
+        Data.a = _a;
+        Data.b = _b;
+        Data.c = _c;
+        Data.d = _d;
+    }
+   
 2) For example, a structure of 2 uint128 can be stored in one slot in a mapping instead of storing them separately.
 3) storage slotları 0 larsak (dipose, garbage collector) bize 15000 gas iade ediliyor.
 4) hata yakalama da assert kullanmayın zira gas refund yapmaz reqire yapın gas size iade edilir.
