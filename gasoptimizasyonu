@@ -1,0 +1,34 @@
+memory-storage kavramları
+
+According to appendices G and H of Ethereum Yellow Paper: a formal specification of Ethereum, a programmable blockchain, 
+the most expensive location where you can save your data is the persistent area called Storage. Saving one slot that is a word of 256 bits to Storage (SSTORE) i
+s 20,000 gas when you initially set it from zero to non-zero. And 5,000 gas is spent when an already used Storage slot is rewritten. Reading a Storage slot using SLOAD 
+takes 200 gas.Compared to Storage, there is a less expensive non-persistent area called Memory where the cost of storing data is a polynomial function of the data size, 
+linear for small amounts, and quadratic for larger. It’s significantly less for small variables compared to Storage.
+
+uyarılar 
+
+1) struct kullanırken 32 byte içerisine sıgacak sekiled yapmalıyız, taşma olursa gas miktarı yükselir.
+2) For example, a structure of 2 uint128 can be stored in one slot in a mapping instead of storing them separately.
+3) storage slotları 0 larsak (dipose, garbage collector) bize 15000 gas iade ediliyor.
+4) hata yakalama da assert kullanmayın zira gas refund yapmaz reqire yapın gas size iade edilir.
+5) Public yerine External kullanız
+    If you are sure you won’t call a method of your contract from its other methods, but only externally, 
+    it’s good to make such a method external, not public. This is because a public method that will also allow calls from the same contract, 
+    has to copy parameters to memory before performing a jump to the method instructions. While an external method doesn’t expect such calls and 
+    is optimized by direct reading of parameters from calldata. An external method f() can still be called from the same contract through a message call as this.f(), 
+    but this is unreasonable as will use extra gas.
+ 6) Internal function calls kullanın
+    Calling functions internally is optimizing the execution because this doesn’t need memory clearing and is just a jump to the method code in the same flow.
+ 7) eventleri gerektiği zaman kullanın
+    According to Appendix G of the Yellow Paper, emitting events is gas-consuming as they generate LOG instructions that take gas depending on data size and amount of topics. 
+    So emit events only where really needed to simplify interaction with offchain parts of the software, not for debugging or logging purpose.
+ 8) eger elinizde byte dizisi var ise ve her bir elamnın uzunluğu 32 byte tan kucuk ise(1 slot)
+    sabit boyutlu dizi kullanın
+    bytes32[] gibi bunun yerine bytes kullanmayın
+ 9) Offchain transactions
+     An alternative approach to save your users from paying transactions fee is to collect their offchain signed transactions and publish those by the backend. 
+     This can be very useful in different multisig defi scenarios and custodian solutions. In this case, the missing signatures can be collected from all involved parties 
+     offchain, and only the final transaction is published Of course, we have to verify signatures onchain using ecrecover. Its costs are mentioned in the yellow paper as 3000 gas.
+     In some other cases, it may be helpful to do the inverse — the backend is applying its signature to assure the data isn’t manipulated later, 
+     but it’s the user who is publishing the tx and paying for gas.
