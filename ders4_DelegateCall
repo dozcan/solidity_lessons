@@ -51,3 +51,79 @@ contract Machine {
         return abi.decode(result, (uint256));
     }
 }
+
+
+
+   
+   pragma solidity 0.8.1;
+   
+  /*contract ProxyStorage {
+      
+      address public otherContractStorageAddress;
+      
+      function setotherContractStorageAddress(address _ot) internal {
+          
+          otherContractStorageAddress = _ot;
+      }
+  }*/
+  
+  contract notlost  {
+      
+      uint public sonuc;
+      
+       function setU(uint a, uint b) public{
+          sonuc = a + b;
+          
+      }
+      
+  }
+  
+  
+  contract Proxy  {
+      //  uint public sonuc; => kaldır çalışacak
+       address public otherContractStorageAddress ;
+      constructor(address _ad){
+          otherContractStorageAddress = _ad;
+      }
+      
+
+      fallback() payable external {
+         address imp =  otherContractStorageAddress;
+         assembly {
+             let ptr:=mload(0x40)
+             calldatacopy(ptr,0,calldatasize())
+             let result:=delegatecall(gas(),imp,ptr,calldatasize(),0,0)
+             let size := returndatasize()
+             returndatacopy(ptr,0,size)
+             switch result
+             case 0 {revert(ptr,size)}
+             default {return(ptr,size)}
+         }}}
+             
+             
+         
+          
+          
+      
+      
+      
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  
+  
+  
+  
+  
+  
+  
