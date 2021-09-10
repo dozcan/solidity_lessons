@@ -1,0 +1,53 @@
+
+
+
+/*
+1) burada amaç bir kontratın diger kontratın business mantığını kullanarak
+  kendi storage yapısını manipüle etmektir.
+
+2) cagrılan ve cagıran global degiskenler aynı sırada ve aynı isimde olmalıdır
+3) cagrımlar yapılırken fonksiyonun imzasının hashi alınır ve bu sekilde cagrılan sozlesmedeki  metodu arar ve cagırır.
+
+
+
+*/
+
+
+
+pragma solidity ^0.5.8;
+contract Calculator {
+    
+    uint256 public calculateResult;
+    address public user;
+
+    
+    function add(uint256 a, uint256 b) public returns (uint256) {
+        calculateResult = a + b;
+        user = msg.sender;
+        return calculateResult;
+    }
+}
+
+contract Machine {
+  
+    
+    uint256 public calculateResult;
+    
+    address public user;
+
+    constructor() public {
+       
+    }
+    
+    
+    function addValuesWithDelegateCall(address calculator, uint256 a, uint256 b) public returns (uint256) {
+        (bool success, bytes memory result) = calculator.delegatecall(abi.encodeWithSignature("add(uint256,uint256)", a, b));
+      
+        return abi.decode(result, (uint256));
+    }
+    
+    function addValuesWithCall(address calculator, uint256 a, uint256 b) public returns (uint256) {
+        (bool success, bytes memory result) = calculator.call(abi.encodeWithSignature("add(uint256,uint256)", a, b));
+        return abi.decode(result, (uint256));
+    }
+}
