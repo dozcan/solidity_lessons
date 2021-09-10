@@ -1,0 +1,13 @@
+contract Calldata {
+    function add(uint256 _a, uint256 _b) public view
+    returns(uint256 result) {
+        assembly {
+            let a := mload(0x40)  // a bir pointer ve bellekte 0x40 adresinden baslayıp 32 byte yer tutuyor
+            let b := add(a, 32)   // b bir pointer ve bellekte 0x50 adresinden başlayıp 32 byte yer tutuyor
+            calldatacopy(a, 4, 32) // ilk parametre a işareçisinin gösterdiği yerden 4 byte ötelenerek 32 byte ayrılır
+                                   // ilk 4 byte fonksiyonun imzası tutulur bytes4(keccak256("add(uint256,uint256)")); 
+            calldatacopy(b, add(4, 32), 32) // b işaretçisi ikinci parametreyi tutar
+            result:= add(mload(a), mload(b)) //a ve b deki verileri hafızaya yükleyip işlem yaptırırız.
+        }
+    }
+}
